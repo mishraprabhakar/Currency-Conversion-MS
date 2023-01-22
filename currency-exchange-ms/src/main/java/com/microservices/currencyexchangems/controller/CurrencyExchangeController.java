@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-
 @RestController
 public class CurrencyExchangeController {
     @Autowired
@@ -17,7 +15,7 @@ public class CurrencyExchangeController {
     @Autowired
     private CurrencyExchangeRepository repository;
 
-    @GetMapping("currency-exchange/from/{from}/to/{to}")
+    @GetMapping("/currency-exchange/from/{from}/to/{to}")
     public CurrencyExchange currencyExchange(@PathVariable String from,
                                              @PathVariable String to) {
 
@@ -27,7 +25,7 @@ public class CurrencyExchangeController {
             throw new RuntimeException("No such Data found for "+from+" To "+to);
         }
         String port = environment.getProperty("local.server.port");
-        currencyExchange.setPort(port);
+        currencyExchange.setEnvironment(port);
 
         return currencyExchange;
     }
