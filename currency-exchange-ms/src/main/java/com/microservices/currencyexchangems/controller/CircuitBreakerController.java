@@ -1,6 +1,7 @@
 package com.microservices.currencyexchangems.controller;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ public class CircuitBreakerController {
     @GetMapping("/sample-api")
 //    @Retry(name = "sample-api", fallbackMethod = "printHelloWorld")
     @CircuitBreaker(name = "default", fallbackMethod = "printHelloWorld")
+
+    //Rate limiting is something that shows allowing specific number of api call in some fixed time
+    @RateLimiter(name = "default")
     public String sampleApi(){
         logger.info("sample API is called");
 
