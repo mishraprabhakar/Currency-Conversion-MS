@@ -1,5 +1,6 @@
 package com.microservices.currencyexchangems.controller;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ public class CircuitBreakerController {
     Logger logger = LoggerFactory.getLogger(CircuitBreakerController.class);
 
     @GetMapping("/sample-api")
-    @Retry(name = "sample-api", fallbackMethod = "printHelloWorld")
+//    @Retry(name = "sample-api", fallbackMethod = "printHelloWorld")
+    @CircuitBreaker(name = "default", fallbackMethod = "printHelloWorld")
     public String sampleApi(){
         logger.info("sample API is called");
 
@@ -24,6 +26,7 @@ public class CircuitBreakerController {
     }
 
     public String printHelloWorld(Exception exception){
+        logger.info("fallback method is called");
         return "Hello World fallback page.";
     }
 }
